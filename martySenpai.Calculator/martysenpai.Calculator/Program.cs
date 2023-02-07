@@ -1,6 +1,6 @@
 ﻿// Declar variables and then initialize to zero.
-int num1 = 0;
-int num2 = 0;
+double num1 = 0;
+double num2 = 0;
 
 // Display title as the C# console calculator app.
 Console.WriteLine("Console Calculator in C#\r");
@@ -8,11 +8,11 @@ Console.WriteLine("------------------------\n");
 
 // Ask the user to type the first number.
 Console.WriteLine("Type a number, and then press Enter");
-num1 = Convert.ToInt32(Console.ReadLine());
+num1 = Convert.ToDouble(Console.ReadLine());
 
 // Ask the user to type the second number.
 Console.WriteLine("Type another number, and then press Enter");
-num2 = Convert.ToInt32(Console.ReadLine());
+num2 = Convert.ToDouble(Console.ReadLine());
 
 // Ask the user to chose an option.
 Console.WriteLine("Choose an option from the following list");
