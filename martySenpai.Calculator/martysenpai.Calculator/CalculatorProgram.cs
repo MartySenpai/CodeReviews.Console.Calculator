@@ -11,7 +11,12 @@ public class Menu
         Console.WriteLine("Console Calculator in C#\r");
         Console.WriteLine("------------------------\n");
 
-        Calculator calculator = new Calculator();
+        int totalSessions = 0;
+        totalSessions++;
+
+        Calculator calculator = new Calculator(totalSessions);
+
+        int totalCalculations = 0;
 
         while (!endApp)
         {
@@ -39,6 +44,7 @@ public class Menu
                 numInput2 = Console.ReadLine();
             }
 
+            //. Change to a switch for better error handling.
             Console.WriteLine("Choose an operator from the following list:");
             Console.WriteLine("\ta - Add");
             Console.WriteLine("\ts - Subtract");
@@ -55,7 +61,11 @@ public class Menu
                 {
                     Console.WriteLine("This operation will result in a mathematical error.\n");
                 }
-                else Console.WriteLine($"Your result: {result:0.##}\n");
+                else
+                {
+                    Console.WriteLine($"Your result: {result:0.##}\n");
+                    totalCalculations++;
+                }
             }
             catch (Exception e)
             {

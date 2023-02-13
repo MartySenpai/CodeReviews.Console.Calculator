@@ -4,15 +4,24 @@ namespace CalculatorLibrary;
 
 public class Calculator
 {
+    // Read log and assign corresponding data.
+    JsonReader reader;
     JsonWriter writer;
 
-    public Calculator()
+    public Calculator(int totalSessions)
     {
-        StreamWriter logFile = File.CreateText("calculatorlog.json");
+        StreamReader logfile = File.("Calculatorlog.json");
+        reader = new JsonTextReader("Calculatorlog.json");
+
+        StreamWriter logFile = File.AppendText("calculatorlog.json");
         logFile.AutoFlush = true;
         writer = new JsonTextWriter(logFile);
         writer.Formatting = Formatting.Indented;
+
         writer.WriteStartObject();
+        writer.WritePropertyName("Total Sessions");
+        writer.WriteValue(totalSessions);
+
         writer.WritePropertyName("Operations");
         writer.WriteStartArray();
     }
@@ -58,6 +67,11 @@ public class Calculator
         return result;
     }
 
+    public int LogStatistics(int n)
+    {
+
+        return n;
+    }
     public void Finish()
     {
         writer.WriteEndArray();
