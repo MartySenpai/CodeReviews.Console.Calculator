@@ -73,6 +73,8 @@ public class Menu
 
                     totalOperations++;
                     Console.WriteLine($"\nTotal operations this session: {totalOperations}");
+
+                    calculator.LogOperations(cleanNum1, cleanNum2, operand);
                 }
             }
             catch (Exception e)

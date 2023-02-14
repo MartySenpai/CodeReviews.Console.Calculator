@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
-
+using CalculatorLibrary.Models;
 namespace CalculatorLibrary;
 
 public class Calculator
 {
+    new List<Operation> operations = new();
+
     // Read log and assign corresponding data.
     JsonReader reader;
     JsonWriter writer;
@@ -67,10 +69,14 @@ public class Calculator
         return result;
     }
 
-    public int LogStatistics(int n)
+    public void LogOperations(double cleanNum1, double cleanNum2, string operand)
     {
-
-        return n;
+        operations.Add(new Operation
+        {
+            Num1 = cleanNum1,
+            Num2 = cleanNum2,
+            Operand = operand
+        });
     }
     public void Finish()
     {
