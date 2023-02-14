@@ -2,4 +2,4 @@
 
 Menu menu = new Menu();
 
-menu.MainMenu();
+menu.OperationMenu();

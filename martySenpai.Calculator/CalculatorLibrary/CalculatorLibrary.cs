@@ -10,8 +10,8 @@ public class Calculator
 
     public Calculator(int totalSessions)
     {
-        StreamReader logfile = File.("Calculatorlog.json");
-        reader = new JsonTextReader("Calculatorlog.json");
+        //StreamReader logfile = File.("Calculatorlog.json");
+        //reader = new JsonTextReader("Calculatorlog.json");
 
         StreamWriter logFile = File.AppendText("calculatorlog.json");
         logFile.AutoFlush = true;
@@ -26,7 +26,7 @@ public class Calculator
         writer.WriteStartArray();
     }
 
-    public double DoOperation(double num1, double num2, string op)
+    public double DoOperation(double num1, double num2, string operand)
     {
         double result = double.NaN;
         writer.WriteStartObject();
@@ -36,7 +36,7 @@ public class Calculator
         writer.WriteValue(num2);
         writer.WritePropertyName("Operation");
 
-        switch (op)
+        switch (operand.Trim().ToLower())
         {
             case "a":
                 result = num1 + num2;

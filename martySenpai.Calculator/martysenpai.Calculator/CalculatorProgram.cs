@@ -4,7 +4,7 @@ namespace CalculatorProgram;
 
 public class Menu
 {
-    public void MainMenu()
+    public void OperationMenu()
     {
         bool endApp = false;
 
@@ -16,7 +16,7 @@ public class Menu
 
         Calculator calculator = new Calculator(totalSessions);
 
-        int totalCalculations = 0;
+        int totalOperations = 0;
 
         while (!endApp)
         {
@@ -44,27 +44,35 @@ public class Menu
                 numInput2 = Console.ReadLine();
             }
 
-            //. Change to a switch for better error handling.
-            Console.WriteLine("Choose an operator from the following list:");
+            Console.WriteLine("Choose an option from the following list:");
             Console.WriteLine("\ta - Add");
             Console.WriteLine("\ts - Subtract");
             Console.WriteLine("\tm - Multiply");
             Console.WriteLine("\td - Divide");
             Console.Write("Your option? ");
 
-            string op = Console.ReadLine();
+            string operand = Console.ReadLine();
+            List<char> allowedOperands = new() { 'a', 's', 'm', 'd' };
+
+            while (string.IsNullOrEmpty(operand) || !operand.All(allowedOperands.Contains))
+            {
+                Console.Write("Please enter a valid key: ");
+                operand = Console.ReadLine();
+            }
 
             try
             {
-                result = calculator.DoOperation(cleanNum1, cleanNum2, op);
+                result = calculator.DoOperation(cleanNum1, cleanNum2, operand);
                 if (double.IsNaN(result))
                 {
                     Console.WriteLine("This operation will result in a mathematical error.\n");
                 }
                 else
                 {
-                    Console.WriteLine($"Your result: {result:0.##}\n");
-                    totalCalculations++;
+                    Console.WriteLine($"\nYour result: {result:0.##}");
+
+                    totalOperations++;
+                    Console.WriteLine($"\nTotal operations this session: {totalOperations}");
                 }
             }
             catch (Exception e)
@@ -81,6 +89,5 @@ public class Menu
         }
         calculator.Finish();
         return;
-
     }
 }
