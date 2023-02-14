@@ -7,5 +7,7 @@
         public double Num2 { get; set; }
 
         public string Operand { get; set; }
+
+        public double Result { get; set; }
     }
 }

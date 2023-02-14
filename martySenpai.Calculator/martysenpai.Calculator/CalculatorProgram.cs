@@ -4,9 +4,48 @@ namespace CalculatorProgram;
 
 public class Menu
 {
-    public void OperationMenu()
+    public void MainMenu()
     {
         bool endApp = false;
+
+        Console.WriteLine("Console Calculator in C#\r");
+        Console.WriteLine("------------------------\n");
+
+        while (!endApp)
+        {
+            Console.WriteLine("Choose an option from the following list:");
+            Console.WriteLine("\th - History");
+            Console.WriteLine("\to - Subtract");
+            Console.Write("Your option? ");
+
+            string optionSelected = Console.ReadLine();
+
+            switch (optionSelected.Trim().ToLower())
+            {
+                case "h":
+                    Calculator.History();
+                    break;
+                case "o":
+                    OperationMenu();
+                    break;
+                case "q":
+                    Console.Clear();
+                    Console.WriteLine("Goodbye!");
+                    endApp = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid input, press enter to continue and enter a valid key.");
+                    Console.ReadLine();
+                    break;
+            }
+
+        }
+
+    }
+
+    public void OperationMenu()
+    {
+        bool endOperations = false;
 
         Console.WriteLine("Console Calculator in C#\r");
         Console.WriteLine("------------------------\n");
@@ -18,7 +57,7 @@ public class Menu
 
         int totalOperations = 0;
 
-        while (!endApp)
+        while (!endOperations)
         {
             string numInput1 = "";
             string numInput2 = "";
@@ -74,7 +113,7 @@ public class Menu
                     totalOperations++;
                     Console.WriteLine($"\nTotal operations this session: {totalOperations}");
 
-                    calculator.LogOperations(cleanNum1, cleanNum2, operand);
+                    calculator.LogOperations(cleanNum1, cleanNum2, operand, result);
                 }
             }
             catch (Exception e)
@@ -84,8 +123,8 @@ public class Menu
 
             Console.WriteLine("------------------------\n");
 
-            Console.Write("Press 'n' and Enter to close the app, or press any other key and Enter to continue: ");
-            if (Console.ReadLine() == "n") endApp = true;
+            Console.Write("Press 'q' and Enter to quit the app, or press any other key and Enter to continue: ");
+            if (Console.ReadLine() == "q") endOperations = true;
 
             Console.WriteLine("\n");
         }

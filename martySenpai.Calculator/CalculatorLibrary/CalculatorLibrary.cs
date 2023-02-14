@@ -1,10 +1,11 @@
 ﻿using Newtonsoft.Json;
 using CalculatorLibrary.Models;
+
 namespace CalculatorLibrary;
 
 public class Calculator
 {
-    new List<Operation> operations = new();
+    public static List<Operation> operations = new();
 
     // Read log and assign corresponding data.
     JsonReader reader;
@@ -69,15 +70,33 @@ public class Calculator
         return result;
     }
 
-    public void LogOperations(double cleanNum1, double cleanNum2, string operand)
+    public void LogOperations(double cleanNum1, double cleanNum2, string operand, double result)
     {
         operations.Add(new Operation
         {
             Num1 = cleanNum1,
             Num2 = cleanNum2,
-            Operand = operand
+            Operand = operand,
+            Result = result
         });
     }
+
+    public static void History()
+    {
+        Console.Clear();
+        Console.WriteLine("Operations History");
+        Console.WriteLine("------------------------------------");
+
+        foreach (Operation operation in operations)
+        {
+            Console.WriteLine($"{operation.Num1} {operation.Operand} {operation.Num2} = {operation.Result}");
+        }
+
+        Console.WriteLine("------------------------------------\n");
+        Console.WriteLine("Press any key to return to the main menu");
+        Console.ReadLine();
+    }
+
     public void Finish()
     {
         writer.WriteEndArray();
