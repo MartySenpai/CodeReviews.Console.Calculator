@@ -44,20 +44,24 @@ public class Calculator
             case "a":
                 result = num1 + num2;
                 writer.WriteValue("Add");
+                LogOperations(num1, num2, '+', result);
                 break;
             case "s":
                 result = num1 - num2;
                 writer.WriteValue("Subtract");
+                LogOperations(num1, num2, '-', result);
                 break;
             case "m":
                 result = num1 * num2;
                 writer.WriteValue("Multiply");
+                LogOperations(num1, num2, '*', result);
                 break;
             case "d":
                 if (num2 != 0)
                 {
                     result = num1 / num2;
                     writer.WriteValue("Divide");
+                    LogOperations(num1, num2, '/', result);
                 }
                 break;
             default:
@@ -70,7 +74,7 @@ public class Calculator
         return result;
     }
 
-    public void LogOperations(double cleanNum1, double cleanNum2, string operand, double result)
+    public void LogOperations(double cleanNum1, double cleanNum2, char operand, double result)
     {
         operations.Add(new Operation
         {
@@ -81,7 +85,7 @@ public class Calculator
         });
     }
 
-    public static void History()
+    public static void ShowHistory()
     {
         Console.Clear();
         Console.WriteLine("Operations History");
@@ -93,8 +97,9 @@ public class Calculator
         }
 
         Console.WriteLine("------------------------------------\n");
-        Console.WriteLine("Press any key to return to the main menu");
-        Console.ReadLine();
+        Console.Write("Press 'D' to delete history, or press any other key and Enter to go back to the main menu: ");
+        if (Console.ReadLine().Trim().ToLower() == "d")
+            operations.Clear();
     }
 
     public void Finish()

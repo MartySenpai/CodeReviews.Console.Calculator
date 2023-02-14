@@ -14,18 +14,19 @@ public class Menu
         while (!endApp)
         {
             Console.WriteLine("Choose an option from the following list:");
-            Console.WriteLine("\th - History");
-            Console.WriteLine("\to - Subtract");
-            Console.Write("Your option? ");
+            Console.WriteLine("\tH - History");
+            Console.WriteLine("\tC - Calculator");
+            Console.WriteLine("\tQ - Quit");
+            Console.Write("\nYour option? ");
 
             string optionSelected = Console.ReadLine();
 
             switch (optionSelected.Trim().ToLower())
             {
                 case "h":
-                    Calculator.History();
+                    Calculator.ShowHistory();
                     break;
-                case "o":
+                case "c":
                     OperationMenu();
                     break;
                 case "q":
@@ -47,6 +48,7 @@ public class Menu
     {
         bool endOperations = false;
 
+        Console.Clear();
         Console.WriteLine("Console Calculator in C#\r");
         Console.WriteLine("------------------------\n");
 
@@ -84,13 +86,13 @@ public class Menu
             }
 
             Console.WriteLine("Choose an option from the following list:");
-            Console.WriteLine("\ta - Add");
-            Console.WriteLine("\ts - Subtract");
-            Console.WriteLine("\tm - Multiply");
-            Console.WriteLine("\td - Divide");
+            Console.WriteLine("\tA - Add");
+            Console.WriteLine("\tS - Subtract");
+            Console.WriteLine("\tM - Multiply");
+            Console.WriteLine("\tD - Divide");
             Console.Write("Your option? ");
 
-            string operand = Console.ReadLine();
+            string operand = Console.ReadLine().Trim().ToLower();
             List<char> allowedOperands = new() { 'a', 's', 'm', 'd' };
 
             while (string.IsNullOrEmpty(operand) || !operand.All(allowedOperands.Contains))
@@ -112,8 +114,6 @@ public class Menu
 
                     totalOperations++;
                     Console.WriteLine($"\nTotal operations this session: {totalOperations}");
-
-                    calculator.LogOperations(cleanNum1, cleanNum2, operand, result);
                 }
             }
             catch (Exception e)
@@ -123,8 +123,8 @@ public class Menu
 
             Console.WriteLine("------------------------\n");
 
-            Console.Write("Press 'q' and Enter to quit the app, or press any other key and Enter to continue: ");
-            if (Console.ReadLine() == "q") endOperations = true;
+            Console.Write("Press 'B' and Enter to return to the main menu, or press any other key and Enter to continue operations: ");
+            if (Console.ReadLine().Trim().ToLower() == "b") endOperations = true;
 
             Console.WriteLine("\n");
         }
