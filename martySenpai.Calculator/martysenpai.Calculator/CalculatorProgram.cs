@@ -24,7 +24,7 @@ public class Menu
             switch (optionSelected.Trim().ToLower())
             {
                 case "h":
-                    Calculator.ShowHistory();
+                    Calculator.HistoryMenu();
                     break;
                 case "c":
                     OperationMenu();
@@ -39,9 +39,7 @@ public class Menu
                     Console.ReadLine();
                     break;
             }
-
         }
-
     }
 
     public void OperationMenu()
