@@ -90,7 +90,7 @@ public class Calculator
         });
     }
 
-    public static void HistoryMenu()
+    public static void showHistory()
     {
         Console.Clear();
         Console.WriteLine("Operations History");
@@ -102,33 +102,6 @@ public class Calculator
         }
 
         Console.WriteLine("------------------------------------\n");
-
-        // Use LINQ to get results with ID.
-        Console.WriteLine("Enter the ID of the calculation to reuse the result in a new calculation, or press any other key and Enter to continue");
-        Console.WriteLine("Enter ID: ");
-        string idSelected = Console.ReadLine().Trim();
-
-        int cleanId = 0;
-        while (!Int32.TryParse(idSelected, out cleanId))
-        {
-            Console.Write("This is not a valid ID. Please enter an valid number: ");
-            idSelected = Console.ReadLine();
-        }
-
-        foreach (Operation operation in operations)
-        {
-            if (cleanId == operation.Id)
-            {
-                double oldResult1;
-                oldResult1 = operation.Result;
-            }
-        }
-
-        Console.Write("Press 'D' to delete history, or press any other key and Enter to go back to the main menu: ");
-        if (Console.ReadLine().Trim().ToLower() == "d")
-            operations.Clear();
-
-        // allow the user to type the ID of two calculations to reuse them in a new calculation.
     }
 
     public void Finish()
