@@ -1,4 +1,5 @@
 ﻿using CalculatorLibrary;
+using CalculatorLibrary.Models;
 
 namespace CalculatorProgram;
 
@@ -224,33 +225,28 @@ public class Menu
         Calculator.showHistory();
 
         // Use LINQ to get results with ID.
-        Console.WriteLine("Enter one or more IDs to reuse results in a new calculation, or press any other key and Enter to continue");
+        Console.WriteLine("Enter one or more IDs seperated by space to reuse results in a new calculation, or press any other key and Enter to continue");
         Console.WriteLine("Enter IDs: ");
         string selectedIds = Console.ReadLine();
-        List<string> Ids = selectedIds.Split(' ').ToList();
 
-        List<int> cleanIds = new();
-        int tempCleanId;
-        for (int i = 0; i < Ids.Count; i++)
+        while (!int.TryParse(selectedIds.Trim(), out _))
         {
-            while (!Int32.TryParse(Ids[i], out tempCleanId))
-            {
-                Console.Write($"{Ids[i]} is not avalid ID. Please enter a valid number: ");
-                Ids[i] = Console.ReadLine();
-            }
-
-            cleanIds.Add(tempCleanId);
+            Console.WriteLine("IDs invalid, Please enter valid integers");
+            selectedIds = Console.ReadLine();
         }
 
-        double oldResult1 = double.NaN;
-        double oldResult2 = double.NaN;
+        List<string> inputIds = selectedIds.Split(' ').ToList();
+        List<int> numberIds = inputIds.Select(s => int.Parse(s)).ToList();
 
+        List<double> oldResults = new();
+        oldResults[0] = double.NaN;
+
+        double oldResult = 0;
         for (int i = 0; i < Calculator.operations.Count; i++)
         {
-            List<int> match = Calculator.operations
-                .FirstOrDefault(Calculator.operations[i].Id => Calculator.operations[i].Id.Equals(cleanIds[i]));
+            // Check LINQ Rules
+            oldResult = Calculator.operations.Result.Where(o => o.Id.Equals(numberIds[i]));
         }
-
 
         try
         {
