@@ -1,5 +1,4 @@
 ﻿using CalculatorLibrary;
-using CalculatorLibrary.Models;
 
 namespace CalculatorProgram;
 
@@ -222,45 +221,36 @@ public class Menu
 
     public void HistoryMenu()
     {
-        // Call ShowHistory.
+        Calculator.showHistory();
+
         // Use LINQ to get results with ID.
-        Console.WriteLine("Enter an ID to reuse the result in a new calculation, or press any other key and Enter to continue");
-        Console.WriteLine("Enter ID: ");
-        string selectedId1 = Console.ReadLine().Trim();
+        Console.WriteLine("Enter one or more IDs to reuse results in a new calculation, or press any other key and Enter to continue");
+        Console.WriteLine("Enter IDs: ");
+        string selectedIds = Console.ReadLine();
+        List<string> Ids = selectedIds.Split(' ').ToList();
 
-        int cleanId1 = 0;
-        while (!Int32.TryParse(selectedId1, out cleanId1))
+        List<int> cleanIds = new();
+        int tempCleanId;
+        for (int i = 0; i < Ids.Count; i++)
         {
-            Console.Write("This is not a valid ID. Please enter an valid number: ");
-            selectedId1 = Console.ReadLine();
-        }
+            while (!Int32.TryParse(Ids[i], out tempCleanId))
+            {
+                Console.Write($"{Ids[i]} is not avalid ID. Please enter a valid number: ");
+                Ids[i] = Console.ReadLine();
+            }
 
-        Console.WriteLine("Enter a second ID to reuse the result in a new calculation, or press any other key and Enter to continue");
-        Console.WriteLine("Enter another ID: ");
-        string selectedId2 = Console.ReadLine().Trim();
-
-        int cleanId2 = 0;
-        while (!Int32.TryParse(selectedId2, out cleanId2))
-        {
-            Console.Write("This is not a valid ID. Please enter an valid number: ");
-            selectedId2 = Console.ReadLine();
+            cleanIds.Add(tempCleanId);
         }
 
         double oldResult1 = double.NaN;
         double oldResult2 = double.NaN;
 
-        foreach (Operation operation in Calculator.operations)
+        for (int i = 0; i < Calculator.operations.Count; i++)
         {
-            if (cleanId1 == operation.Id)
-            {
-                oldResult1 = operation.Result;
-            }
-
-            if (cleanId2 == operation.Id)
-            {
-                oldResult2 = operation.Result;
-            }
+            List<int> match = Calculator.operations
+                .FirstOrDefault(Calculator.operations[i].Id => Calculator.operations[i].Id.Equals(cleanIds[i]));
         }
+
 
         try
         {
