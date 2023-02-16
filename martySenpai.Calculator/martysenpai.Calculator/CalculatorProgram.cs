@@ -241,21 +241,24 @@ public class Menu
         List<double> oldResults = new();
         oldResults[0] = double.NaN;
 
-        double oldResult = 0;
-        for (int i = 0; i < Calculator.operations.Count; i++)
+        foreach (Operation operation in Calculator.operations)
         {
-            // Check LINQ Rules
-            oldResult = Calculator.operations.Result.Where(o => o.Id.Equals(numberIds[i]));
+            for (int i = 0; i < Calculator.operations.Count; i++)
+            {
+                if (operation.Id == numberIds[i])
+                    oldResults.Add(operation.Result);
+            }
         }
 
         try
         {
-            if (double.IsNaN(oldResult1))
+            if (double.IsNaN(oldResults[0]))
             {
                 Console.WriteLine("No IDs selected, continuing...");
             }
             else
             {
+                // add array parameter or list parameter.
                 OperationMenu(oldResult1, oldResult2);
             }
         }
