@@ -259,7 +259,7 @@ public class Menu
             else
             {
                 // add array parameter or list parameter.
-                OperationMenu(oldResult1, oldResult2);
+                OperationMenu(Result1, Result2);
             }
         }
         catch (Exception e)
