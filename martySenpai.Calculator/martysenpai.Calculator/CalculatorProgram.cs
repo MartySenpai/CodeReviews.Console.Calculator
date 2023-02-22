@@ -25,7 +25,7 @@ public class Menu
             switch (optionSelected.Trim().ToLower())
             {
                 case "h":
-                    Calculator.showHistory();
+                    HistoryMenu();
                     break;
                 case "c":
                     OperationMenu();
@@ -43,7 +43,6 @@ public class Menu
         }
     }
 
-    // Implement accept array/lists as parameter.
     public void OperationMenu()
     {
         bool endOperations = false;
@@ -132,7 +131,7 @@ public class Menu
         return;
     }
 
-    public void OperationMenu(double cleanNum1, double cleanNum2)
+    private void OperationMenu(List<double> oldResults)
     {
         bool endOperations = false;
 
@@ -149,29 +148,20 @@ public class Menu
 
         while (!endOperations)
         {
-            //string numInput1 = "";
-            //string numInput2 = "";
+            string numInputs = "";
             double result = 0;
 
-            //Console.Write("Type a number, and then press Enter: ");
-            //numInput1 = Console.ReadLine();
+            Console.Write("Input one or more numbers seperated by spaces, and then press Enter: ");
+            numInputs = Console.ReadLine();
 
-            //double cleanNum1 = 0;
-            //while (!double.TryParse(numInput1, out cleanNum1))
-            //{
-            //    Console.Write("This is not a valid input. Please enter an integer value: ");
-            //    numInput1 = Console.ReadLine();
-            //}
+            List<double> cleanNums = new();
 
-            //Console.Write("Type another number, and then press Enter: ");
-            //numInput2 = Console.ReadLine();
-
-            //double cleanNum2 = 0;
-            //while (!double.TryParse(numInput2, out cleanNum2))
-            //{
-            //    Console.Write("This is not a valid input. Please enter an integer value: ");
-            //    numInput2 = Console.ReadLine();
-            //}
+            // Research Validation of lists.
+            cleanNums = numInputs.Split(' ').Select(s =>
+            {
+                double i;
+                return double.TryParse(s, out i) ? i : double.NaN;
+            }).ToList();
 
             Console.WriteLine("Choose an option from the following list:");
             Console.WriteLine("\tA - Add");
@@ -259,7 +249,7 @@ public class Menu
             else
             {
                 // add array parameter or list parameter.
-                OperationMenu(Result1, Result2);
+                OperationMenu(oldResults);
             }
         }
         catch (Exception e)
@@ -267,11 +257,11 @@ public class Menu
             Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
         }
 
-
         Console.Write("Press 'D' to delete history, or press any other key and Enter to go back to the main menu: ");
         if (Console.ReadLine().Trim().ToLower() == "d")
             Calculator.operations.Clear();
 
         // allow the user to type the ID of two calculations to reuse them in a new calculation.
     }
+
 }
