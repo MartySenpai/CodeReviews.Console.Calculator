@@ -17,7 +17,7 @@ public class Calculator
         //StreamReader logfile = File.("Calculatorlog.json");
         //reader = new JsonTextReader("Calculatorlog.json");
 
-        StreamWriter logFile = File.AppendText("calculatorlog.json");
+        StreamWriter logFile = File.CreateText("calculatorlog.json");
         logFile.AutoFlush = true;
         writer = new JsonTextWriter(logFile);
         writer.Formatting = Formatting.Indented;
@@ -36,9 +36,9 @@ public class Calculator
         double result = double.NaN;
         // writer.WriteStartObject();
         // writer.WritePropertyName("Operand1");
-        // writer.WriteValue(num1);
+        // writer.WriteValue(cleanNum1);
         // writer.WritePropertyName("Operand2");
-        // writer.WriteValue(num2);
+        // writer.WriteValue(cleanNum2);
         // writer.WritePropertyName("Operation");
 
         switch (operant.Trim().ToLower())
@@ -48,39 +48,39 @@ public class Calculator
                 {
                     result += num;
                 }
-                writer.WriteValue("Add");
-                // LogOperations(num1, num2, '+', result);
+                // writer.WriteValue("Add");
+                // LogOperations(cleanNum1, cleanNum2, '+', result);
                 break;
             case "s":
                 foreach (double num in cleanNums)
                 {
                     result -= num;
                 }
-                writer.WriteValue("Subtract");
-                // LogOperations(num1, num2, '-', result);
+                // writer.WriteValue("Subtract");
+                // LogOperations(cleanNum1, cleanNum2, '-', result);
                 break;
             case "m":
                 foreach (double num in cleanNums)
                 {
                     result += num;
                 }
-                writer.WriteValue("Multiply");
-                // LogOperations(num1, num2, '*', result);
+                // writer.WriteValue("Multiply");
+                // LogOperations(cleanNum1, cleanNum2, '*', result);
                 break;
             case "d":
                 if (cleanNums[1] != 0)
                 {
                     result = cleanNums[0] / cleanNums[1];
-                    writer.WriteValue("Divide");
-                    // LogOperations(num1, num2, '/', result);
+                    // writer.WriteValue("Divide");
+                    // LogOperations(cleanNum1, cleanNum2, '/', result);
                 }
                 break;
             default:
                 break;
         }
-        writer.WritePropertyName("Result");
-        writer.WriteValue(result);
-        writer.WriteEndObject();
+        // writer.WritePropertyName("Result");
+        // writer.WriteValue(result);
+        // writer.WriteEndObject();
 
         return result;
     }
@@ -100,24 +100,24 @@ public class Calculator
             case "a":
                 result = cleanNum1 + cleanNum2;
                 writer.WriteValue("Add");
-                // LogOperations(num1, num2, '+', result);
+                LogOperations(cleanNum1, cleanNum2, '+', result);
                 break;
             case "s":
-                result = cleanNum1 + cleanNum2;
+                result = cleanNum1 - cleanNum2;
                 writer.WriteValue("Subtract");
-                // LogOperations(num1, num2, '-', result);
+                LogOperations(cleanNum1, cleanNum2, '-', result);
                 break;
             case "m":
-                result = cleanNum1 + cleanNum2;
+                result = cleanNum1 * cleanNum2;
                 writer.WriteValue("Multiply");
-                // LogOperations(num1, num2, '*', result);
+                LogOperations(cleanNum1, cleanNum2, '*', result);
                 break;
             case "d":
                 if (cleanNum2!= 0)
                 {
                     result = cleanNum1 / cleanNum2;
                     writer.WriteValue("Divide");
-                    // LogOperations(num1, num2, '/', result);
+                    LogOperations(cleanNum1, cleanNum2, '/', result);
                 }
                 break;
             default:
@@ -130,15 +130,15 @@ public class Calculator
         return result;
     }
 
-    public void LogOperations(double num1, double num2, char operand, double result)
+    public void LogOperations(double cleanNum1, double cleanNum2, char operand, double result)
     {
         id++;
 
         operations.Add(new Operation
         {
             Id = id,
-            Num1 = num1,
-            Num2 = num2,
+            Num1 = cleanNum1,
+            Num2 = cleanNum2,
             Operand = operand,
             Result = result
         });

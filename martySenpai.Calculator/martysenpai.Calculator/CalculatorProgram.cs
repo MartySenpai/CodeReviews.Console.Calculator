@@ -91,18 +91,18 @@ public class Menu
             Console.WriteLine("\tD - Divide");
             Console.Write("Your option? ");
 
-            string operand = Console.ReadLine().Trim().ToLower();
+            string operant = Console.ReadLine().Trim().ToLower();
             List<char> allowedOperands = new() { 'a', 's', 'm', 'd' };
 
-            while (string.IsNullOrEmpty(operand) || !operand.All(allowedOperands.Contains))
+            while (string.IsNullOrEmpty(operant) || !operant.All(allowedOperands.Contains))
             {
                 Console.Write("Please enter a valid key: ");
-                operand = Console.ReadLine();
+                operant = Console.ReadLine();
             }
 
             try
             {
-                result = calculator.DoOperation(cleanNum1, cleanNum2, operand);
+                result = calculator.DoOperation(cleanNum1, cleanNum2, operant);
                 if (double.IsNaN(result))
                 {
                     Console.WriteLine("This operation will result in a mathematical error.\n");
@@ -219,7 +219,7 @@ public class Menu
         Console.WriteLine("Enter IDs: ");
         string selectedIds = Console.ReadLine();
 
-        while (!int.TryParse(selectedIds.Trim(), out _))
+        while (!int.TryParse(selectedIds.Replace(" ", ""), out _))
         {
             Console.WriteLine("IDs invalid, Please enter valid integers");
             selectedIds = Console.ReadLine();
@@ -229,14 +229,21 @@ public class Menu
         List<int> numberIds = inputIds.Select(s => int.Parse(s)).ToList();
 
         List<double> oldResults = new();
-        oldResults[0] = double.NaN;
+        oldResults.Add(double.NaN);
 
         foreach (Operation operation in Calculator.operations)
         {
+
+            // Correct for loop to add all inputIds to oldResults.
             for (int i = 0; i < Calculator.operations.Count; i++)
             {
                 if (operation.Id == numberIds[i])
+                {
+                    if (i == 0)
+                        oldResults.Remove(double.NaN);
+
                     oldResults.Add(operation.Result);
+                }
             }
         }
 
