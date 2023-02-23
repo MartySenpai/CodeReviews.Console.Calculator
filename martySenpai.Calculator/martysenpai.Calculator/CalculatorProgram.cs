@@ -170,18 +170,18 @@ public class Menu
             Console.WriteLine("\tD - Divide");
             Console.Write("Your option? ");
 
-            string operand = Console.ReadLine().Trim().ToLower();
+            string operant = Console.ReadLine().Trim().ToLower();
             List<char> allowedOperands = new() { 'a', 's', 'm', 'd' };
 
-            while (string.IsNullOrEmpty(operand) || !operand.All(allowedOperands.Contains))
+            while (string.IsNullOrEmpty(operant) || !operant.All(allowedOperands.Contains))
             {
                 Console.Write("Please enter a valid key: ");
-                operand = Console.ReadLine();
+                operant = Console.ReadLine();
             }
 
             try
             {
-                result = calculator.DoOperation(cleanNum1, cleanNum2, operand);
+                result = calculator.DoOperation(cleanNums, operant);
                 if (double.IsNaN(result))
                 {
                     Console.WriteLine("This operation will result in a mathematical error.\n");
@@ -263,5 +263,4 @@ public class Menu
 
         // allow the user to type the ID of two calculations to reuse them in a new calculation.
     }
-
 }

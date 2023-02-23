@@ -31,39 +31,93 @@ public class Calculator
     }
 
     // Change parameter to array to allow 1 or 2 numbers for operation.
-    public double DoOperation(double num1, double num2, string operand)
+    public double DoOperation(List<double> cleanNums, string operant)
+    {
+        double result = double.NaN;
+        // writer.WriteStartObject();
+        // writer.WritePropertyName("Operand1");
+        // writer.WriteValue(num1);
+        // writer.WritePropertyName("Operand2");
+        // writer.WriteValue(num2);
+        // writer.WritePropertyName("Operation");
+
+        switch (operant.Trim().ToLower())
+        {
+            case "a":
+                foreach (double num in cleanNums)
+                {
+                    result += num;
+                }
+                writer.WriteValue("Add");
+                // LogOperations(num1, num2, '+', result);
+                break;
+            case "s":
+                foreach (double num in cleanNums)
+                {
+                    result -= num;
+                }
+                writer.WriteValue("Subtract");
+                // LogOperations(num1, num2, '-', result);
+                break;
+            case "m":
+                foreach (double num in cleanNums)
+                {
+                    result += num;
+                }
+                writer.WriteValue("Multiply");
+                // LogOperations(num1, num2, '*', result);
+                break;
+            case "d":
+                if (cleanNums[1] != 0)
+                {
+                    result = cleanNums[0] / cleanNums[1];
+                    writer.WriteValue("Divide");
+                    // LogOperations(num1, num2, '/', result);
+                }
+                break;
+            default:
+                break;
+        }
+        writer.WritePropertyName("Result");
+        writer.WriteValue(result);
+        writer.WriteEndObject();
+
+        return result;
+    }
+
+    public double DoOperation(double cleanNum1, double cleanNum2, string operant)
     {
         double result = double.NaN;
         writer.WriteStartObject();
         writer.WritePropertyName("Operand1");
-        writer.WriteValue(num1);
+        writer.WriteValue(cleanNum1);
         writer.WritePropertyName("Operand2");
-        writer.WriteValue(num2);
+        writer.WriteValue(cleanNum2);
         writer.WritePropertyName("Operation");
 
-        switch (operand.Trim().ToLower())
+        switch (operant.Trim().ToLower())
         {
             case "a":
-                result = num1 + num2;
+                result = cleanNum1 + cleanNum2;
                 writer.WriteValue("Add");
-                LogOperations(num1, num2, '+', result);
+                // LogOperations(num1, num2, '+', result);
                 break;
             case "s":
-                result = num1 - num2;
+                result = cleanNum1 + cleanNum2;
                 writer.WriteValue("Subtract");
-                LogOperations(num1, num2, '-', result);
+                // LogOperations(num1, num2, '-', result);
                 break;
             case "m":
-                result = num1 * num2;
+                result = cleanNum1 + cleanNum2;
                 writer.WriteValue("Multiply");
-                LogOperations(num1, num2, '*', result);
+                // LogOperations(num1, num2, '*', result);
                 break;
             case "d":
-                if (num2 != 0)
+                if (cleanNum2!= 0)
                 {
-                    result = num1 / num2;
+                    result = cleanNum1 / cleanNum2;
                     writer.WriteValue("Divide");
-                    LogOperations(num1, num2, '/', result);
+                    // LogOperations(num1, num2, '/', result);
                 }
                 break;
             default:
