@@ -34,6 +34,7 @@ public class Calculator
     public double DoOperation(List<double> cleanNums, string operant)
     {
         double result = double.NaN;
+        double tempResult = 0;
         // writer.WriteStartObject();
         // writer.WritePropertyName("Operand1");
         // writer.WriteValue(cleanNum1);
@@ -46,24 +47,31 @@ public class Calculator
             case "a":
                 foreach (double num in cleanNums)
                 {
-                    result += num;
+                    tempResult += num;
                 }
+                result = tempResult;
+                LogOperations(cleanNums, '+', result);
                 // writer.WriteValue("Add");
-                // LogOperations(cleanNum1, cleanNum2, '+', result);
                 break;
             case "s":
-                foreach (double num in cleanNums)
+                tempResult = cleanNums[0]; 
+
+                foreach (double num in cleanNums.Skip(1))
                 {
-                    result -= num;
+                    tempResult -= num;
                 }
+                result = tempResult;
                 // writer.WriteValue("Subtract");
                 // LogOperations(cleanNum1, cleanNum2, '-', result);
                 break;
             case "m":
-                foreach (double num in cleanNums)
+                tempResult = cleanNums[0];
+
+                foreach (double num in cleanNums.Skip(1))
                 {
-                    result += num;
+                    tempResult += num;
                 }
+                result = tempResult;
                 // writer.WriteValue("Multiply");
                 // LogOperations(cleanNum1, cleanNum2, '*', result);
                 break;
@@ -85,60 +93,14 @@ public class Calculator
         return result;
     }
 
-    public double DoOperation(double cleanNum1, double cleanNum2, string operant)
-    {
-        double result = double.NaN;
-        writer.WriteStartObject();
-        writer.WritePropertyName("Operand1");
-        writer.WriteValue(cleanNum1);
-        writer.WritePropertyName("Operand2");
-        writer.WriteValue(cleanNum2);
-        writer.WritePropertyName("Operation");
-
-        switch (operant.Trim().ToLower())
-        {
-            case "a":
-                result = cleanNum1 + cleanNum2;
-                writer.WriteValue("Add");
-                LogOperations(cleanNum1, cleanNum2, '+', result);
-                break;
-            case "s":
-                result = cleanNum1 - cleanNum2;
-                writer.WriteValue("Subtract");
-                LogOperations(cleanNum1, cleanNum2, '-', result);
-                break;
-            case "m":
-                result = cleanNum1 * cleanNum2;
-                writer.WriteValue("Multiply");
-                LogOperations(cleanNum1, cleanNum2, '*', result);
-                break;
-            case "d":
-                if (cleanNum2!= 0)
-                {
-                    result = cleanNum1 / cleanNum2;
-                    writer.WriteValue("Divide");
-                    LogOperations(cleanNum1, cleanNum2, '/', result);
-                }
-                break;
-            default:
-                break;
-        }
-        writer.WritePropertyName("Result");
-        writer.WriteValue(result);
-        writer.WriteEndObject();
-
-        return result;
-    }
-
-    public void LogOperations(double cleanNum1, double cleanNum2, char operand, double result)
+    public void LogOperations(List<double> cleanNums, char operand, double result)
     {
         id++;
 
         operations.Add(new Operation
         {
             Id = id,
-            Num1 = cleanNum1,
-            Num2 = cleanNum2,
+            Nums = cleanNums,
             Operand = operand,
             Result = result
         });

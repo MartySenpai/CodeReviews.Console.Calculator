@@ -5,6 +5,7 @@ namespace CalculatorProgram;
 
 public class Menu
 {
+
     public void MainMenu()
     {
         bool endApp = false;
@@ -22,13 +23,16 @@ public class Menu
 
             string optionSelected = Console.ReadLine();
 
+            List<double> oldResults = new();
+            oldResults.Add(double.NaN);
+
             switch (optionSelected.Trim().ToLower())
             {
                 case "h":
                     HistoryMenu();
                     break;
                 case "c":
-                    OperationMenu();
+                    OperationMenu(oldResults);
                     break;
                 case "q":
                     Console.Clear();
@@ -162,6 +166,11 @@ public class Menu
                 double i;
                 return double.TryParse(s, out i) ? i : double.NaN;
             }).ToList();
+            
+            foreach( double oldResult in oldResults)
+            {
+                cleanNums.Prepend(oldResult);
+            }
 
             Console.WriteLine("Choose an option from the following list:");
             Console.WriteLine("\tA - Add");

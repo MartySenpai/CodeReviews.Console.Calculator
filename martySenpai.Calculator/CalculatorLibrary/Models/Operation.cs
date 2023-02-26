@@ -3,9 +3,8 @@
     public class Operation
     {
         public int Id { get; set; }
-        public double Num1 { get; set; }
 
-        public double Num2 { get; set; }
+        public List<double> Nums { get; set; }
 
         public char Operand { get; set; }
 

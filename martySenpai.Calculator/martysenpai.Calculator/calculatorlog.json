@@ -1,17 +1,4 @@
 {
   "Total Sessions": 1,
-  "Operations": [
-    {
-      "Operand1": 5.0,
-      "Operand2": 5.0,
-      "Operation": "Add",
-      "Result": 10.0
-    },
-    {
-      "Operand1": 6.0,
-      "Operand2": 6.0,
-      "Operation": "Multiply",
-      "Result": 36.0
-    }
-  ]
+  "Operations": []
 }
