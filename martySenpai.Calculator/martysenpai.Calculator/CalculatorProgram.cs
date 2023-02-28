@@ -47,94 +47,6 @@ public class Menu
         }
     }
 
-    public void OperationMenu()
-    {
-        bool endOperations = false;
-
-        Console.Clear();
-        Console.WriteLine("Console Calculator in C#\r");
-        Console.WriteLine("------------------------\n");
-
-        int totalSessions = 0;
-        totalSessions++;
-
-        Calculator calculator = new Calculator(totalSessions);
-
-        int totalOperations = 0;
-
-        while (!endOperations)
-        {
-            string numInput1 = "";
-            string numInput2 = "";
-            double result = 0;
-
-            Console.Write("Type a number, and then press Enter: ");
-            numInput1 = Console.ReadLine();
-
-            double cleanNum1 = 0;
-            while (!double.TryParse(numInput1, out cleanNum1))
-            {
-                Console.Write("This is not a valid input. Please enter an integer value: ");
-                numInput1 = Console.ReadLine();
-            }
-
-            Console.Write("Type another number, and then press Enter: ");
-            numInput2 = Console.ReadLine();
-
-            double cleanNum2 = 0;
-            while (!double.TryParse(numInput2, out cleanNum2))
-            {
-                Console.Write("This is not a valid input. Please enter an integer value: ");
-                numInput2 = Console.ReadLine();
-            }
-
-            Console.WriteLine("Choose an option from the following list:");
-            Console.WriteLine("\tA - Add");
-            Console.WriteLine("\tS - Subtract");
-            Console.WriteLine("\tM - Multiply");
-            Console.WriteLine("\tD - Divide");
-            Console.Write("Your option? ");
-
-            string operant = Console.ReadLine().Trim().ToLower();
-            List<char> allowedOperands = new() { 'a', 's', 'm', 'd' };
-
-            while (string.IsNullOrEmpty(operant) || !operant.All(allowedOperands.Contains))
-            {
-                Console.Write("Please enter a valid key: ");
-                operant = Console.ReadLine();
-            }
-
-            try
-            {
-                result = calculator.DoOperation(cleanNum1, cleanNum2, operant);
-                if (double.IsNaN(result))
-                {
-                    Console.WriteLine("This operation will result in a mathematical error.\n");
-                }
-                else
-                {
-                    Console.WriteLine($"\nYour result: {result:0.##}");
-
-                    totalOperations++;
-                    Console.WriteLine($"\nTotal operations this session: {totalOperations}");
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Oh no! An exception occurred trying to do the math.\n - Details: " + e.Message);
-            }
-
-            Console.WriteLine("------------------------\n");
-
-            Console.Write("Press 'B' and Enter to return to the main menu, or press any other key and Enter to continue operations: ");
-            if (Console.ReadLine().Trim().ToLower() == "b") endOperations = true;
-
-            Console.WriteLine("\n");
-        }
-        calculator.Finish();
-        return;
-    }
-
     private void OperationMenu(List<double> oldResults)
     {
         bool endOperations = false;
@@ -160,17 +72,21 @@ public class Menu
 
             List<double> cleanNums = new();
 
-            // Research Validation of lists.
+            // Research LinQ
             cleanNums = numInputs.Split(' ').Select(s =>
             {
                 double i;
                 return double.TryParse(s, out i) ? i : double.NaN;
             }).ToList();
             
-            foreach( double oldResult in oldResults)
+            if (!double.IsNaN(oldResults[0]))
             {
-                cleanNums.Prepend(oldResult);
+                foreach( double oldResult in oldResults)
+                {
+                    cleanNums = cleanNums.Prepend(oldResult).ToList();
+                }
             }
+            
 
             Console.WriteLine("Choose an option from the following list:");
             Console.WriteLine("\tA - Add");
@@ -231,7 +147,6 @@ public class Menu
         while (!int.TryParse(selectedIds.Replace(" ", ""), out _))
         {
             Console.WriteLine("IDs invalid, Please enter valid integers");
-            selectedIds = Console.ReadLine();
         }
 
         List<string> inputIds = selectedIds.Split(' ').ToList();
@@ -240,6 +155,11 @@ public class Menu
         List<double> oldResults = new();
         oldResults.Add(double.NaN);
 
+        // LinQ test
+        foreach (Operation operation in Calculator.operations)
+        {
+            
+        }
         foreach (Operation operation in Calculator.operations)
         {
 

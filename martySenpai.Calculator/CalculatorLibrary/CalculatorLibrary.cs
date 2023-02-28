@@ -114,7 +114,20 @@ public class Calculator
 
         foreach (Operation operation in operations)
         {
-            Console.WriteLine($"{operation.Id}. {operation.Num1} {operation.Operand} {operation.Num2} = {operation.Result}");
+            // Add For loop or similiar to enable list print.
+            Console.Write($"{operation.Id}. ");
+
+            for (int i = 0; i < operation.Nums.Count; i++)
+            {
+                Console.Write($"{operation.Nums[i]}");
+
+                if (i < operation.Nums.Count - 1)
+                {
+                    Console.Write($" {operation.Operand} ");
+                }
+            }
+            
+            Console.Write ($" = {operation.Result}\n");
         }
 
         Console.WriteLine("------------------------------------\n");
