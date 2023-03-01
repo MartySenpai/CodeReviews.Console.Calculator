@@ -155,26 +155,29 @@ public class Menu
         List<double> oldResults = new();
         oldResults.Add(double.NaN);
 
-        // LinQ test
-        foreach (Operation operation in Calculator.operations)
+        // LinQ test/rethink grabbing of old results, grab whole list?
+        int i = 0;
+        foreach ( int numberId in numberIds)
         {
-            
+            oldResults.Add(Calculator.operations.FindIndex( o => o.Id == numberIds[i]));
+            i++;
         }
-        foreach (Operation operation in Calculator.operations)
-        {
 
-            // Correct for loop to add all inputIds to oldResults.
-            for (int i = 0; i < Calculator.operations.Count; i++)
-            {
-                if (operation.Id == numberIds[i])
-                {
-                    if (i == 0)
-                        oldResults.Remove(double.NaN);
+        // foreach (Operation operation in Calculator.operations)
+        // {
 
-                    oldResults.Add(operation.Result);
-                }
-            }
-        }
+        //     // Correct for loop to add all inputIds to oldResults.
+        //     for (int i = 0; i < Calculator.operations.Count; i++)
+        //     {
+        //         if (operation.Id == numberIds[i])
+        //         {
+        //             if (i == 0)
+        //                 oldResults.Remove(double.NaN);
+
+        //             oldResults.Add(operation.Result);
+        //         }
+        //     }
+        // }
 
         try
         {
