@@ -142,42 +142,27 @@ public class Menu
         // Use LINQ to get results with ID.
         Console.WriteLine("Enter one or more IDs seperated by space to reuse results in a new calculation, or press any other key and Enter to continue");
         Console.WriteLine("Enter IDs: ");
-        string selectedIds = Console.ReadLine();
+        string selectedIDs = Console.ReadLine();
 
-        while (!int.TryParse(selectedIds.Replace(" ", ""), out _))
+        while (!int.TryParse(selectedIDs.Replace(" ", ""), out _))
         {
             Console.WriteLine("IDs invalid, Please enter valid integers");
         }
 
-        List<string> inputIds = selectedIds.Split(' ').ToList();
-        List<int> numberIds = inputIds.Select(s => int.Parse(s)).ToList();
+        List<string> inputIDs = selectedIDs.Split(' ').ToList();
+        List<int> numberIDs = inputIDs.Select(s => int.Parse(s)).ToList();
 
         List<double> oldResults = new();
         oldResults.Add(double.NaN);
 
+        List<Operation> oldOperations = new();
+
         // LinQ test/rethink grabbing of old results, grab whole list?
-        int i = 0;
-        foreach ( int numberId in numberIds)
+
+        foreach (double numberID in numberIDs)
         {
-            oldResults.Add(Calculator.operations.FindIndex( o => o.Id == numberIds[i]));
-            i++;
+            oldOperations.AddRange(Calculator.operations.Where(o => o.Id == numberID).ToList());
         }
-
-        // foreach (Operation operation in Calculator.operations)
-        // {
-
-        //     // Correct for loop to add all inputIds to oldResults.
-        //     for (int i = 0; i < Calculator.operations.Count; i++)
-        //     {
-        //         if (operation.Id == numberIds[i])
-        //         {
-        //             if (i == 0)
-        //                 oldResults.Remove(double.NaN);
-
-        //             oldResults.Add(operation.Result);
-        //         }
-        //     }
-        // }
 
         try
         {
