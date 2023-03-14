@@ -6,7 +6,7 @@ namespace CalculatorLibrary;
 public class Calculator
 {
     public static List<Operation> operations = new();
-    private int id = 0;
+    private static int id;
 
     // Read log and assign corresponding data.
     JsonReader reader;
@@ -69,7 +69,7 @@ public class Calculator
 
                 foreach (double num in cleanNums.Skip(1))
                 {
-                    tempResult += num;
+                    tempResult *= num;
                 }
                 result = tempResult;
                 // writer.WriteValue("Multiply");
@@ -82,6 +82,19 @@ public class Calculator
                     // writer.WriteValue("Divide");
                     // LogOperations(cleanNum1, cleanNum2, '/', result);
                 }
+                break;
+            case "r":
+
+                // Add rules for advanced operations.
+                foreach (double num in cleanNums)
+                {
+                    tempResult = Math.Sqrt(num);
+                }
+                result = tempResult;
+                break;
+            case "p":
+                tempResult = Math.Pow(cleanNums[0], cleanNums[1]);
+                result = tempResult;
                 break;
             default:
                 break;

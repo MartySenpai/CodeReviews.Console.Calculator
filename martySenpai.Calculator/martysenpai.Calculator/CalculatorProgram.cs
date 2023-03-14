@@ -153,8 +153,6 @@ public class Menu
         List<int> numberIDs = inputIDs.Select(s => int.Parse(s)).ToList();
 
         List<double> oldResults = new();
-        oldResults.Add(double.NaN);
-
         List<Operation> oldOperations = new();
 
         // LinQ test/rethink grabbing of old results, grab whole list?
@@ -162,6 +160,16 @@ public class Menu
         foreach (double numberID in numberIDs)
         {
             oldOperations.AddRange(Calculator.operations.Where(o => o.Id == numberID).ToList());
+        }
+
+        foreach (Operation oldOperation in oldOperations)
+        {
+            oldResults.Add(oldOperation.Result);
+        }
+
+        if (!oldResults.Any())
+        {
+            oldResults.Add(double.NaN);
         }
 
         try
