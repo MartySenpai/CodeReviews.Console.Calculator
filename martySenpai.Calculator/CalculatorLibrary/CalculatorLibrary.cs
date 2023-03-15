@@ -8,41 +8,16 @@ public class Calculator
     public static List<Operation> operations = new();
     private static int id;
 
-    // Read log and assign corresponding data.
-    JsonReader reader;
-    JsonWriter writer;
-
-    public Calculator(int totalSessions)
+    public Calculator()
     {
-        //StreamReader logfile = File.("Calculatorlog.json");
-        //reader = new JsonTextReader("Calculatorlog.json");
-
-        StreamWriter logFile = File.CreateText("calculatorlog.json");
-        logFile.AutoFlush = true;
-        writer = new JsonTextWriter(logFile);
-        writer.Formatting = Formatting.Indented;
-
-        writer.WriteStartObject();
-        writer.WritePropertyName("Total Sessions");
-        writer.WriteValue(totalSessions);
-
-        writer.WritePropertyName("Operations");
-        writer.WriteStartArray();
     }
 
-    // Change parameter to array to allow 1 or 2 numbers for operation.
-    public double DoOperation(List<double> cleanNums, string operant)
+    public double DoOperation(List<double> cleanNums, string calculatorOption)
     {
         double result = double.NaN;
         double tempResult = 0;
-        // writer.WriteStartObject();
-        // writer.WritePropertyName("Operand1");
-        // writer.WriteValue(cleanNum1);
-        // writer.WritePropertyName("Operand2");
-        // writer.WriteValue(cleanNum2);
-        // writer.WritePropertyName("Operation");
 
-        switch (operant.Trim().ToLower())
+        switch (calculatorOption.Trim().ToLower())
         {
             case "a":
                 foreach (double num in cleanNums)
@@ -50,8 +25,7 @@ public class Calculator
                     tempResult += num;
                 }
                 result = tempResult;
-                LogOperations(cleanNums, '+', result);
-                // writer.WriteValue("Add");
+                LogOperations(cleanNums, "+", result);
                 break;
             case "s":
                 tempResult = cleanNums[0]; 
@@ -61,8 +35,7 @@ public class Calculator
                     tempResult -= num;
                 }
                 result = tempResult;
-                // writer.WriteValue("Subtract");
-                // LogOperations(cleanNum1, cleanNum2, '-', result);
+                LogOperations(cleanNums, "-", result);
                 break;
             case "m":
                 tempResult = cleanNums[0];
@@ -72,41 +45,43 @@ public class Calculator
                     tempResult *= num;
                 }
                 result = tempResult;
-                // writer.WriteValue("Multiply");
-                // LogOperations(cleanNum1, cleanNum2, '*', result);
+                LogOperations(cleanNums, "*", result);
                 break;
             case "d":
                 if (cleanNums[1] != 0)
                 {
                     result = cleanNums[0] / cleanNums[1];
-                    // writer.WriteValue("Divide");
-                    // LogOperations(cleanNum1, cleanNum2, '/', result);
                 }
+                LogOperations(cleanNums, "/", result);
                 break;
             case "r":
-
-                // Add rules for advanced operations.
                 foreach (double num in cleanNums)
                 {
                     tempResult = Math.Sqrt(num);
                 }
                 result = tempResult;
+                LogOperations(cleanNums, "\u221a", result);
+                break;
+            case "x":
+                foreach (double num in cleanNums)
+                {
+                    tempResult = num * 10;
+                }
+                result = tempResult;
+                LogOperations(cleanNums, "10x", result);
                 break;
             case "p":
                 tempResult = Math.Pow(cleanNums[0], cleanNums[1]);
                 result = tempResult;
+                LogOperations(cleanNums, "^", result);
                 break;
             default:
                 break;
         }
-        // writer.WritePropertyName("Result");
-        // writer.WriteValue(result);
-        // writer.WriteEndObject();
-
         return result;
     }
 
-    public void LogOperations(List<double> cleanNums, char operand, double result)
+    public void LogOperations(List<double> cleanNums, string operand, double result)
     {
         id++;
 
@@ -132,14 +107,14 @@ public class Calculator
 
             for (int i = 0; i < operation.Nums.Count; i++)
             {
+                if (operation.Nums.Count == 1)
+                    Console.Write($" {operation.Operand}");
+                
                 Console.Write($"{operation.Nums[i]}");
 
                 if (i < operation.Nums.Count - 1)
-                {
                     Console.Write($" {operation.Operand} ");
-                }
             }
-            
             Console.Write ($" = {operation.Result}\n");
         }
 
@@ -148,8 +123,5 @@ public class Calculator
 
     public void Finish()
     {
-        writer.WriteEndArray();
-        writer.WriteEndObject();
-        writer.Close();
     }
 }

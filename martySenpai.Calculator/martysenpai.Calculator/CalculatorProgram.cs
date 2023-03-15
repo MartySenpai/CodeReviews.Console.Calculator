@@ -55,12 +55,8 @@ public class Menu
         Console.WriteLine("Console Calculator in C#\r");
         Console.WriteLine("------------------------\n");
 
-        int totalSessions = 0;
-        totalSessions++;
+        Calculator calculator = new Calculator();
 
-        Calculator calculator = new Calculator(totalSessions);
-
-        int totalOperations = 0;
 
         while (!endOperations)
         {
@@ -87,26 +83,28 @@ public class Menu
                 }
             }
             
-
             Console.WriteLine("Choose an option from the following list:");
             Console.WriteLine("\tA - Add");
             Console.WriteLine("\tS - Subtract");
             Console.WriteLine("\tM - Multiply");
             Console.WriteLine("\tD - Divide");
+            Console.WriteLine("\tR - Square Root");
+            Console.WriteLine("\tX - 10x");
+            Console.WriteLine("\tP - Power");
             Console.Write("Your option? ");
 
-            string operant = Console.ReadLine().Trim().ToLower();
-            List<char> allowedOperands = new() { 'a', 's', 'm', 'd' };
+            string calculatorOption = Console.ReadLine().Trim().ToLower();
+            List<char> allowedOptions = new() { 'a', 's', 'm', 'd', 'r', 'x', 'p' };
 
-            while (string.IsNullOrEmpty(operant) || !operant.All(allowedOperands.Contains))
+            while (string.IsNullOrEmpty(calculatorOption) || !calculatorOption.All(allowedOptions.Contains))
             {
                 Console.Write("Please enter a valid key: ");
-                operant = Console.ReadLine();
+                calculatorOption = Console.ReadLine();
             }
 
             try
             {
-                result = calculator.DoOperation(cleanNums, operant);
+                result = calculator.DoOperation(cleanNums, calculatorOption);
                 if (double.IsNaN(result))
                 {
                     Console.WriteLine("This operation will result in a mathematical error.\n");
@@ -114,9 +112,6 @@ public class Menu
                 else
                 {
                     Console.WriteLine($"\nYour result: {result:0.##}");
-
-                    totalOperations++;
-                    Console.WriteLine($"\nTotal operations this session: {totalOperations}");
                 }
             }
             catch (Exception e)
@@ -139,7 +134,6 @@ public class Menu
     {
         Calculator.showHistory();
 
-        // Use LINQ to get results with ID.
         Console.WriteLine("Enter one or more IDs seperated by space to reuse results in a new calculation, or press any other key and Enter to continue");
         Console.WriteLine("Enter IDs: ");
         string selectedIDs = Console.ReadLine();
