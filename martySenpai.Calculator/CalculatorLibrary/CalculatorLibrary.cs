@@ -10,6 +10,31 @@ public class Calculator
 
     public Calculator()
     {
+        // Json writing.
+    }
+
+    public List<double> GetUserNumbers(List<double> oldResults)
+    {
+        string numInputs = "";
+
+        Console.Write("Input one or more numbers seperated by spaces, and then press Enter: ");
+        numInputs = Console.ReadLine();
+
+        List<double> cleanNums = new();
+        cleanNums = numInputs.Split(' ').Select(s =>
+        {
+            double i;
+            return double.TryParse(s, out i) ? i : double.NaN;
+        }).ToList();
+        
+        if (!double.IsNaN(oldResults[0]))
+        {
+            foreach( double oldResult in oldResults)
+            {
+                cleanNums = cleanNums.Prepend(oldResult).ToList();
+            }
+        }
+        return cleanNums;
     }
 
     public double DoOperation(List<double> cleanNums, string calculatorOption)
@@ -94,7 +119,7 @@ public class Calculator
         });
     }
 
-    public static void showHistory()
+    public void showHistory()
     {
         Console.Clear();
         Console.WriteLine("Operations History");

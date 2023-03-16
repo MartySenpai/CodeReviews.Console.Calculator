@@ -5,6 +5,7 @@ namespace CalculatorProgram;
 
 public class Menu
 {
+    Calculator calculator = new Calculator();
 
     public void MainMenu()
     {
@@ -21,12 +22,13 @@ public class Menu
             Console.WriteLine("\tQ - Quit");
             Console.Write("\nYour option? ");
 
-            string optionSelected = Console.ReadLine();
+            string menuOptionSelected = Console.ReadLine();
 
+            // Should I declare oldResults here?
             List<double> oldResults = new();
             oldResults.Add(double.NaN);
 
-            switch (optionSelected.Trim().ToLower())
+            switch (menuOptionSelected.Trim().ToLower())
             {
                 case "h":
                     HistoryMenu();
@@ -57,32 +59,11 @@ public class Menu
 
         Calculator calculator = new Calculator();
 
-
         while (!endOperations)
         {
-            string numInputs = "";
-            double result = 0;
 
-            Console.Write("Input one or more numbers seperated by spaces, and then press Enter: ");
-            numInputs = Console.ReadLine();
+            List<double> cleanNums = calculator.GetUserNumbers(oldResults);
 
-            List<double> cleanNums = new();
-
-            // Research LinQ
-            cleanNums = numInputs.Split(' ').Select(s =>
-            {
-                double i;
-                return double.TryParse(s, out i) ? i : double.NaN;
-            }).ToList();
-            
-            if (!double.IsNaN(oldResults[0]))
-            {
-                foreach( double oldResult in oldResults)
-                {
-                    cleanNums = cleanNums.Prepend(oldResult).ToList();
-                }
-            }
-            
             Console.WriteLine("Choose an option from the following list:");
             Console.WriteLine("\tA - Add");
             Console.WriteLine("\tS - Subtract");
@@ -104,7 +85,7 @@ public class Menu
 
             try
             {
-                result = calculator.DoOperation(cleanNums, calculatorOption);
+                double result = calculator.DoOperation(cleanNums, calculatorOption);
                 if (double.IsNaN(result))
                 {
                     Console.WriteLine("This operation will result in a mathematical error.\n");
@@ -132,7 +113,7 @@ public class Menu
 
     public void HistoryMenu()
     {
-        Calculator.showHistory();
+        calculator.showHistory();
 
         Console.WriteLine("Enter one or more IDs seperated by space to reuse results in a new calculation, or press any other key and Enter to continue");
         Console.WriteLine("Enter IDs: ");
@@ -148,8 +129,6 @@ public class Menu
 
         List<double> oldResults = new();
         List<Operation> oldOperations = new();
-
-        // LinQ test/rethink grabbing of old results, grab whole list?
 
         foreach (double numberID in numberIDs)
         {
